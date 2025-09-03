@@ -45,13 +45,14 @@ def validar_fecha(fecha_str):
         return False
 
 def imprimir_empleado(emps, search):
-    if search == int:
-        emp_id = buscar_empleado_id(emps, search)
-        dataf = pd.DataFrame([emp_id])
+    if isinstance(search, int):
+        emps = buscar_empleado_id(emps, search)
     else:
-        emp_name = buscar_empleado(emps, search)
-        dataf = pd.DataFrame([emp_name])
-    print(dataf.T)
+        emps = buscar_empleado(emps, search)
+    if emps:
+        print(pd.DataFrame([emps]).T)
+    else:
+        print("Empleado no encontrado")
 
 #**************************
 #diccionario de muestra
@@ -109,7 +110,7 @@ while programa:
                     nuevo_empleado['id'] = N_identificacion
                     nuevo_empleado['cargo'] = cargo
                     nuevo_empleado['departamento'] = departamento
-                    nuevo_empleado['salario'] = salario
+                    nuevo_empleado['salario'] = salario_num
                     nuevo_empleado['fecha'] = fecha
                     empleados.append(nuevo_empleado)
                     in_datos = False
@@ -118,14 +119,17 @@ while programa:
             except ValueError:
                 print("Debe ingresar un id y/o salario valido")
             #Validamos que nada este vacío
-
     #*************************
     #Mostrar empleado
     #*************************
     elif opcion == 2:
         buscar = input("Ingrese el nombre o id del empleado: ")
         #validamos si es que se busca por ID
-        validar_busqueda(empleados, buscar)
+        impresion = validar_busqueda(empleados, buscar)
+        if not impresion:
+            print("El empleado ", buscar, " no existe")
+        else:
+            imprimir_empleado(empleados, buscar)
     #********************************
     #Actualizar información empleado
     #********************************
@@ -150,18 +154,21 @@ while programa:
             if opcion == 1:
                 try:
                     emp["salario"] = float(input("Ingrese el salario nuevo: "))
+                    print("salario actualizado!", emp["salario"])
                 except ValueError:
                     print("Salario no válido")
             elif opcion == 2:
                 new_departamento = input("Ingrese el nuevo departamento: ").strip()
                 if new_departamento:
                     emp["departamento"] = new_departamento
+                    print("departamento actualizado!", emp["departamento"])
                 else:
                     print("no puede dejar el campo vacío")
             elif opcion == 3:
                 new_cargo = input("Ingrese el nuevo cargo: ").strip()
                 if new_cargo:
                     emp["cargo"] = new_cargo
+                    print("cargo actualizado!", emp["cargo"])
                 else:
                     print("no puede dejar el campo vacío")
             elif opcion == 4:
@@ -176,19 +183,11 @@ while programa:
     elif opcion == 4:
         buscar_del = input("Ingrese el nombre o id del empleado a eliminar: ").strip()
         eliminado = validar_busqueda(empleados, buscar_del)
-        if eliminado != False:
-            try:
-                buscar_del = int(buscar_del)
-                for i in range(len(empleados)):
-                    if empleados[i]['id'] == eliminado ['id']:
-                        del empleados[i]
-                        print("El empleado ",eliminado['nombre']," ya no existe")
-            except ValueError:
-                for i in range(len(empleados)):
-                    if empleados[i]['nombre'] == eliminado ['nombre']:
-                        del empleados[i]
-                        print("El empleado ",eliminado['nombre']," ya no existe")
-
+        if not eliminado:
+            print("Empleado no encontrado")
+        else:
+            empleados.remove(eliminado)  # elimina directamente el diccionario
+            print(f"✅ El empleado {eliminado['nombre']} (ID: {eliminado['id']}) ha sido eliminado")
     #*******************
     #Salir del programa
     #*******************
