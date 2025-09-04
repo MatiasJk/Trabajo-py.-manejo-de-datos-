@@ -63,8 +63,15 @@ empleados = [{
     'cargo' : 'Practica',
     'departamento' : 'developers',
     'salario' : 100000,
-    'fecha_contratación' : '02-09-2025'}
-
+    'fecha_contratación' : '02-09-2025'},
+    {
+    'nombre' : 'Luis',
+    'id' : 1,
+    'cargo' : 'Practica',
+    'departamento' : 'developers',
+    'salario' : 100000,
+    'fecha_contratación' : '03-09-2025'
+    }
 ]
 #**************************
 #Inicio menu
