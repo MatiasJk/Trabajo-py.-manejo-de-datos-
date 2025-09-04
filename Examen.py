@@ -1,7 +1,7 @@
 import datetime
 import pandas as pd
 
-def validar_busqueda(emps, buscar_emp):
+def validar_busqueda(emps,buscar_emp):
     try:
         buscar_emp = int(buscar_emp)
         if buscar_emp >= 0:
@@ -39,7 +39,7 @@ def buscar_empleado_id(lista_empleados, buscando):
 
 def validar_fecha(fecha_str):
     try:
-        datetime.datetime.strptime(fecha_str, "%Y-%m-%d")
+        datetime.datetime.strptime(fecha_str, "%d-%m-%Y")
         return True
     except ValueError:
         return False
@@ -53,7 +53,6 @@ def imprimir_empleado(emps, search):
         print(pd.DataFrame([emps]).T)
     else:
         print("Empleado no encontrado")
-
 #**************************
 #diccionario de muestra
 #**************************
@@ -80,7 +79,7 @@ programa = True
 while programa:
     #aseguramos que la elección sea solo numerica
     try:
-        opcion=int(input("bienvenido al programa, Que desea hacer hoy \n"
+        opcion=int(input("Bienvenido al programa, Que desea hacer hoy \n"
                          "1. Registrar empleado nuevo\n"
                          "2. Mostrar empleado\n"
                          "3. Actualizar información de empleado\n"
@@ -100,27 +99,27 @@ while programa:
         #bucle de ingreso de datos
         while in_datos:
             nombre = input("Ingrese el nombre del empleado: ").strip()
-            N_identificacion = input("Ingrese el id del empleado: ").strip()
+            N_identificacion = input("Ingrese el id del empleado: ")
             cargo = input("Ingrese el cargo del empleado: ").strip()
             departamento = input("Ingrese el departamento: ").strip()
-            salario = input("Ingrese el salario: ").strip()
+            salario = input("Ingrese el salario: ")
             fecha = input("Ingrese la fecha de contratación:").strip()
             #se valida si la id y el salario se ingresan como int
             try:
-                N_identificacion = int(N_identificacion)
+                Num_identificacion = int(N_identificacion)
                 salario_num = float(salario)
                 if (nombre and N_identificacion and cargo and departamento
-                        and salario and fecha and type(N_identificacion) == int
-                        and type(salario_num) in (int, float) and validar_fecha(fecha)):
+                        and salario and fecha and validar_fecha(fecha)):
                     # Se ingresan los inputs al diccionario y se agrega en el array empleados, salimos del bucle
                     nuevo_empleado['nombre'] = nombre
-                    nuevo_empleado['id'] = N_identificacion
+                    nuevo_empleado['id'] = Num_identificacion
                     nuevo_empleado['cargo'] = cargo
                     nuevo_empleado['departamento'] = departamento
                     nuevo_empleado['salario'] = salario_num
                     nuevo_empleado['fecha_contratación'] = fecha
                     empleados.append(nuevo_empleado)
                     in_datos = False
+                    print(pd.DataFrame([nuevo_empleado]).T)
                 else:
                     print("lo que ingreso es lo siguiente:\n"
                           f"nombre: {nombre}\n"
@@ -129,6 +128,30 @@ while programa:
                           f"departamento: {departamento}\n"
                           f"salario: {salario}\n"
                           f"fecha de contratacion: {fecha}\n")
+                    if nombre:
+                        print("el nombre fue ingresado")
+                    else:
+                        print("no se ha ingresado el nombre")
+                    if N_identificacion:
+                        print("el id fue ingresado")
+                    else:
+                        print("no se ha ingresado el id")
+                    if cargo:
+                        print("el cargo fue ingresado")
+                    else:
+                        print("no se ha ingresado el cargo")
+                    if departamento:
+                        print("el departamento fue ingresado")
+                    else:
+                        print("no se ha ingresado el departamento")
+                    if salario:
+                        print("el salario fue ingresado")
+                    else:
+                        print("no se ha ingresado el salario")
+                    if fecha:
+                        print("el fecha fue ingresado")
+                    else:
+                        print("no se ha ingresado el fecha")
                     print("no debe dejar datos vacíos ni inválidos, intente de nuevo.")
             except ValueError:
                 print("Debe ingresar un id y/o salario valido")
@@ -138,12 +161,12 @@ while programa:
     #*************************
     elif opcion == 2:
         buscar = input("Ingrese el nombre o id del empleado: ")
-        #validamos si es que se busca por ID
+        # validamos si es que se busca por ID
         impresion = validar_busqueda(empleados, buscar)
         if not impresion:
             print("El empleado ", buscar, " no existe")
         else:
-            imprimir_empleado(empleados, buscar)
+            imprimir_empleado(empleados, impresion['id'])
     #********************************
     #Actualizar información empleado
     #********************************
