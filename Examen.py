@@ -63,7 +63,7 @@ empleados = [{
     'cargo' : 'Practica',
     'departamento' : 'developers',
     'salario' : 100000,
-    'fecha de contratación' : '02-09-2025'}
+    'fecha_contratación' : '02-09-2025'}
 
 ]
 #**************************
@@ -111,10 +111,17 @@ while programa:
                     nuevo_empleado['cargo'] = cargo
                     nuevo_empleado['departamento'] = departamento
                     nuevo_empleado['salario'] = salario_num
-                    nuevo_empleado['fecha'] = fecha
+                    nuevo_empleado['fecha_contratación'] = fecha
                     empleados.append(nuevo_empleado)
                     in_datos = False
                 else:
+                    print("lo que ingreso es lo siguiente:\n"
+                          f"nombre: {nombre}\n"
+                          f"id: {N_identificacion}\n"
+                          f"cargo: {cargo}\n"
+                          f"departamento: {departamento}\n"
+                          f"salario: {salario}\n"
+                          f"fecha de contratacion: {fecha}\n")
                     print("no debe dejar datos vacíos ni inválidos, intente de nuevo.")
             except ValueError:
                 print("Debe ingresar un id y/o salario valido")
@@ -176,7 +183,7 @@ while programa:
                 cambio = False
 
             else:
-                print("Empleado inexistente")
+                print("Opcion no valida")
     #************************
     #Eliminar empleado
     #************************
@@ -187,7 +194,7 @@ while programa:
             print("Empleado no encontrado")
         else:
             empleados.remove(eliminado)  # elimina directamente el diccionario
-            print(f"✅ El empleado {eliminado['nombre']} (ID: {eliminado['id']}) ha sido eliminado")
+            print(f"El empleado {eliminado['nombre']} (ID: {eliminado['id']}) ha sido eliminado")
     #*******************
     #Salir del programa
     #*******************
